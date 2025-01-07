@@ -117,6 +117,33 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 };
 #endif // ENCODER_MAP_ENABLE
 
+
+/*
+I want the colors as stock. Except that when my layer is pressed a single color is shown
+I also want my "base" layer to have a toggle light underneath it, like capslock and numlock
+*/
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    switch(get_highest_layer(layer_state|default_layer_state)){
+        case _JK_BASE:
+            rgb_matrix_set_color(16, 255, 255, 255);
+            break;
+        case _JK_NAV:
+            rgb_matrix_set_color(16, 0, 255, 0);
+            break;
+        case _JK_COLEMAK_DH:
+            rgb_matrix_set_color(16, 24, 192, 56);
+            break;
+        case WIN_BASE:
+            rgb_matrix_set_color(16, 0, 0, 0);
+            break;
+        default: // for any other layers, or the default layer
+            rgb_matrix_set_color(16, 255, 0, 0);
+            break;
+    }
+    return false;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_keychron_common(keycode, record)) {
         return false;
